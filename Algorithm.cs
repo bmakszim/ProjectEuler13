@@ -8,50 +8,39 @@ namespace ProjectEuler13
 {
     public class Algorithm
     {
+        private const int ResultLength = 10;
+
         public string Run(List<string> list)
         {
             string result = string.Empty;
 
             while (list.Any())
             {
-                result = SummarizeEndChars(ref list) + result;
+                var builder = new StringBuilder();
+                result = builder.Append(SummarizeEndChars(ref list))
+                                .Append(result)
+                                .ToString(0, Math.Min(builder.Length, ResultLength));
             }
 
-            if (result.Length > 10)
-            {
-                return result.Substring(0, 10);
-            }
             return result;
         }
 
-        public string SummarizeEndChars(ref List<string> input)
+        private string SummarizeEndChars(ref List<string> input)
         {
             var output = new List<string>();
-            int temp = 0;
+            int intResult = 0;
+
             foreach (string row in input)
             {
-                temp += row[row.Length - 1].ToString().ToNumber();
-                string newRow = row.Remove(row.Length - 1);
-
-                if (!string.IsNullOrWhiteSpace(newRow))
-                {
-                    output.Add(newRow);
-                }
+                intResult += row[row.Length - 1].ToString().ToNumber();
+                output.AddIfNotEmpty(row.Remove(row.Length - 1));
             }
 
-            string result = temp.ToString();
-
-            string newResult = result.Remove(result.Length - 1);
-
-            if (!string.IsNullOrWhiteSpace(newResult))
-            {
-                output.Add(newResult);
-            }
-
+            string result = intResult.ToString();
+            output.AddIfNotEmpty(result.Remove(result.Length - 1));
+            
             input = output;
-
-            return result[result.Length - 1].ToString();
+            return result.Last().ToString();
         }
-
     }
 }
