@@ -10,6 +10,14 @@ namespace ProjectEuler13
     {
         static void Main(string[] args)
         {
+
+            var alg = new Algorithm();
+            var parser = new FileReader();
+            string result = alg.Run(parser.ToList());
+
+            //var r = new Parser().ToList();
+            Console.WriteLine(result);
+            Console.Read();
         }
     }
 }
